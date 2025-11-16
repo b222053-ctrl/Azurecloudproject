@@ -41,8 +41,7 @@ This project simulates a real-world enterprise scenario where a company needs to
 
 ## 🏗️ Architecture
 
-![Azure Governance Architecture](https://github.com/b222053-ctrl/Azurecloudproject/raw/main/docs/architecture-diagram.png)
-
+![Azure Governance Architecture](Architecture.jpeg)
 ### Key Components:
 
 1. **RBAC (Role-Based Access Control)**
