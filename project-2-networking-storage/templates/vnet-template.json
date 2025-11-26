@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": { "type": "string", "defaultValue": "proj2-vnet" },
+    "location": { "type": "string", "defaultValue": "eastus" },
+    "addressPrefix": { "type": "string", "defaultValue": "10.0.0.0/16" },
+    "webSubnetPrefix": { "type": "string", "defaultValue": "10.0.1.0/27" },
+    "dbSubnetPrefix": { "type": "string", "defaultValue": "10.0.0.0/27" }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-06-01",
+      "name": "[parameters('vnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": { "addressPrefixes": [ "[parameters('addressPrefix')]" ] },
+        "subnets": [
+          {
+            "name": "Web",
+            "properties": {
+              "addressPrefix": "[parameters('webSubnetPrefix')]"
+            }
+          },
+          {
+            "name": "Database",
+            "properties": {
+              "addressPrefix": "[parameters('dbSubnetPrefix')]",
+              "serviceEndpoints": [
+                { "service": "Microsoft.Storage" }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "vnetId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+    },
+    "dbSubnetId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'Database')]"
+    }
+  }
+}
